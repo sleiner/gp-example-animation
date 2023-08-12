@@ -28,6 +28,6 @@ fetch_dependency(gp-sdk)
 FetchContent_Declare(
   juce
   GIT_REPOSITORY https://github.com/juce-framework/JUCE.git
-  GIT_TAG 2f980209cc4091a4490bb1bafc5d530f16834e58 # v6.1.6
+  GIT_TAG d24c2729268e322f3ba1b5070eb96ab232d7f6ba # v7.0.6
 )
 fetch_dependency(juce)
