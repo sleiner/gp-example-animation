@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 6.1.6
+  Created with Projucer version: 7.0.6
 
   ------------------------------------------------------------------------------
 
@@ -23,7 +23,15 @@
 #include <juce_core/juce_core.h>
 #include <juce_graphics/juce_graphics.h>
 #include <juce_gui_basics/juce_gui_basics.h>
+#include <juce_gui_extra/juce_gui_extra.h>
+
+// AnimationAppDemo.h does not qualify uses of the juce namespace.
+// To avoid changing that file, we just import the namespace as a whole.
+// This is super hacky, please do not try this at home ;-)
+using namespace juce;
 //[/Headers]
+
+#include "AnimationAppDemo.h"
 
 //==============================================================================
 /**
@@ -33,41 +41,37 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class LogWindow : public juce::Component, public juce::Button::Listener
+class AnimationWindow : public juce::Component
 {
   public:
     //==============================================================================
-    LogWindow();
-    ~LogWindow() override;
+    AnimationWindow();
+    ~AnimationWindow() override;
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     void static initialize(); // Call this to initialize the component
-    void static log(const juce::String &text);
-    void static finalize(); // Call this when library is about to be unloaded to
-                            // free resources
+    void static finalize();   // Call this when library is about to be unloaded to
+                              // free resources
     void static showWindow();
     void static hideWindow();
     //[/UserMethods]
 
     void paint(juce::Graphics &g) override;
     void resized() override;
-    void buttonClicked(juce::Button *buttonThatWasClicked) override;
 
   private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    static LogWindow *sfInstance;
+    static AnimationWindow *sfInstance;
 
     std::unique_ptr<juce::DocumentWindow> fWindow;
     //[/UserVariables]
 
     //==============================================================================
-    std::unique_ptr<juce::Label> label;
-    std::unique_ptr<juce::TextEditor> txtLog;
-    std::unique_ptr<juce::TextButton> btnClear;
+    std::unique_ptr<AnimationAppDemo> animation;
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LogWindow)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AnimationWindow)
 };
 
 //[EndFile] You can add extra defines here...
