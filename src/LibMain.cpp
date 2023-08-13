@@ -1,6 +1,7 @@
 #include "LibMain.h"
-#include <array>
 
+#include <array>
+#include <juce_events/juce_events.h>
 namespace gigperformer
 {
 namespace sdk
@@ -56,16 +57,16 @@ void LibMain::InvokeMenu(int index)
 
 extern "C" void GPScript_ShowAnimation(GPRuntimeEngine *)
 {
-    printf(">>> show\n");
-    AnimationWindow::showWindow();
-    printf(">>> shown\n");
+    // We need to go through MessageManager::callAsync() to ensure that this gets called on the GUI thread.
+    // Else, all bets are off and a crash is likely.
+    juce::MessageManager::getInstance()->callAsync([]() { AnimationWindow::showWindow(); });
 }
 
 extern "C" void GPScript_HideAnimation(GPRuntimeEngine *)
 {
-    printf(">>> hide\n");
-    AnimationWindow::hideWindow();
-    printf(">>> hidden\n");
+    // We need to go through MessageManager::callAsync() to ensure that this gets called on the GUI thread.
+    // Else, all bets are off and a crash is likely.
+    juce::MessageManager::getInstance()->callAsync([]() { AnimationWindow::hideWindow(); });
 }
 
 ExternalAPI_GPScriptFunctionDefinition functionList[] = {
